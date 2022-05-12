@@ -16,7 +16,7 @@ class ArtistQuery(@Autowired private val artistService: ArtistService) : Query {
 
     fun singleArtistByName(name: String): Artist = artistService.getArtistByName(name)
 
-    fun getArtistsByGenre(genre: Genre): List<Artist> = artistService.getArtistsByGenre(genre)
+    fun allArtistsByCountry(country: String): List<Artist> = artistService.getArtistsByCountry(country)
 
-    fun getArtistsByCountry(country: String): List<Artist> = artistService.getArtistsByCountry(country)
+    fun allArtistsByGenre(genre: Genre): List<Artist> = artistService.getArtistsByGenre(genre)
 }
