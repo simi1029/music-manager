@@ -1,5 +1,16 @@
 package hu.simda.musicmanagerserver.domain
 
-import com.expediagroup.graphql.generator.scalars.ID
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.Indexed
+import org.springframework.data.mongodb.core.mapping.Document
 
-data class Artist(val id: ID, val name: String, val country: String)
+@Document("artists")
+data class Artist(
+    @Id
+    val id: String = ObjectId.get().toHexString(),
+    @Indexed(unique = true)
+    val name: String,
+    val country: String,
+    val genre: Genre?
+)

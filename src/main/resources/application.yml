@@ -1,2 +1,16 @@
 graphql:
     packages: "hu.simda.musicmanagerserver"
+
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
