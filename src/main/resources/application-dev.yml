@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      connectionString: "mongodb://docker:mongopw@localhost:55000"
+      connectionString: "mongodb://docker:mongopw@localhost:55001"

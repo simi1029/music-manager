@@ -4,7 +4,6 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
-import hu.simda.musicmanagerserver.annotation.CascadeSaveMongoEventListener
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,7 +29,4 @@ class MongoConfig {
 
     @Bean
     fun mongoTemplate(): MongoTemplate = MongoTemplate(mongo(), DB_NAME)
-
-    @Bean
-    fun cascadingMongoEventListener(): CascadeSaveMongoEventListener = CascadeSaveMongoEventListener()
 }
