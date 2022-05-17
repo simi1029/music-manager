@@ -1,48 +1,56 @@
 package hu.simda.musicmanagerserver.dao
 
-import com.expediagroup.graphql.generator.scalars.ID
 import hu.simda.musicmanagerserver.domain.Album
-import hu.simda.musicmanagerserver.domain.Artist
-import hu.simda.musicmanagerserver.domain.Song
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.repository.Aggregation
+import org.springframework.data.mongodb.repository.MongoRepository
+import java.util.Optional
 
-class AlbumRepository {
-    object Artists {
-        val PORCUPINE_TREE = Artist(ID("1"), "Porcupine Tree", "UK")
-        val DREAM_THEATER = Artist(ID("2"), "Dream Theater", "USA")
-    }
+interface AlbumRepository : MongoRepository<Album, ObjectId> {
 
-    private val albums: MutableList<Album> = mutableListOf(
-        Album(
-            ID("1"), Artists.PORCUPINE_TREE, "Fear of a Blank Planet", 2007,
-            listOf(
-                Song(ID("1"), Artists.PORCUPINE_TREE, "Fear of a Blank Planet", 448, null, null),
-                Song(ID("2"), Artists.PORCUPINE_TREE, "My Ashes", 307, null, null),
-                Song(ID("3"), Artists.PORCUPINE_TREE, "Anesthetize", 1062, null, null),
-                Song(ID("4"), Artists.PORCUPINE_TREE, "Sentimental", 326, null, null),
-                Song(ID("5"), Artists.PORCUPINE_TREE, "Way Out of Here", 457, null, null),
-                Song(ID("6"), Artists.PORCUPINE_TREE, "Sleep Together", 448, null, null)
-            ), null, null, null
-        ),
-        Album(
-            ID("2"), Artists.DREAM_THEATER, "Fear of a Blank Planet", 2007,
-            listOf(
-                Song(ID("1"), Artists.DREAM_THEATER, "In the Presence of Enemies, Part I", 540, null, null),
-                Song(ID("2"), Artists.DREAM_THEATER, "Forsaken", 336, null, null),
-                Song(ID("3"), Artists.DREAM_THEATER, "Constant Motion", 415, null, null),
-                Song(ID("4"), Artists.DREAM_THEATER, "The Dark Eternal Night", 533, null, null),
-                Song(ID("5"), Artists.DREAM_THEATER, "Repentance", 643, null, null),
-                Song(ID("6"), Artists.DREAM_THEATER, "Prophets of War", 360, null, null),
-                Song(ID("7"), Artists.DREAM_THEATER, "The Ministry of Lost Souls", 897, null, null),
-                Song(ID("8"), Artists.DREAM_THEATER, "In the Presence of Enemies, Part II", 998, null, null)
-            ), null, null, null
-        )
+    @Aggregation(pipeline = [LOOKUP_ARTIST, UNWIND_ARTIST, LOOKUP_SONGS])
+    fun getAllAlbums(): List<Album>
+
+    @Aggregation(
+        pipeline = [
+            "{'\$match': { '_id': ?0 }}",
+            LOOKUP_ARTIST,
+            UNWIND_ARTIST,
+            LOOKUP_SONGS
+        ]
     )
+    fun getAlbum(id: ObjectId): Album
 
-    fun getAllAlbums(): MutableList<Album> {
-        return albums
-    }
+    @Aggregation(
+        pipeline = [
+            "{'\$match': { 'title': ?0 }}",
+            LOOKUP_ARTIST,
+            UNWIND_ARTIST,
+            LOOKUP_SONGS
+        ]
+    )
+    fun getAlbums(title: String): List<Album>
 
-    fun saveAlbum(album: Album) {
-        albums.add(album)
+    @Aggregation(
+        pipeline = [
+            "{'\$match': { 'title': ?1, 'releaseDate': ?2 }}",
+            LOOKUP_ARTIST,
+            UNWIND_ARTIST,
+            "{'\$match': { 'artist._id': ?0 }}",
+            LOOKUP_SONGS
+        ]
+    )
+    fun getAlbum(artistID: ObjectId, title: String, releaseDate: Int): Optional<Album>
+
+    companion object {
+        private const val LOOKUP_ARTIST =
+            "{'\$lookup': { from: 'artists', localField: 'artists._id', foreignField: 'artist', as: 'artist' }}"
+        private const val UNWIND_ARTIST = "{'\$unwind': { path: '\$artist' }}"
+        private const val LOOKUP_SONGS_ARTIST =
+            "{'\$lookup': { from: 'artists', localField: 'artists._id', foreignField: 'artist', as: 'artist' }}"
+        private const val UNWIND_SONG_ARTIST = "{'\$unwind': { path: '\$artist' }}"
+
+        private const val LOOKUP_SONGS =
+            "{'\$lookup': { from: 'songs', localField: 'songs._id', foreignField: 'songs', as: 'songs', pipeline: [$LOOKUP_SONGS_ARTIST, $UNWIND_SONG_ARTIST] }}"
     }
 }
