@@ -14,19 +14,20 @@ class ArtistService(@Autowired private val artistRepository: ArtistRepository) {
 
     fun getArtistByID(id: String): Artist {
         val artist = artistRepository.findById(ObjectId(id))
-        if (artist.isPresent) return artist.get() else throw ArtistNotFoundException("Artist is not found with given ID")
+        return if (artist.isPresent) artist.get() else throw ArtistNotFoundException("Artist is not found with given ID")
     }
 
     fun getArtistByName(name: String): Artist {
         val artist = artistRepository.getArtist(name)
-        if (artist.isPresent) return artist.get() else throw ArtistNotFoundException("Artist is not found with given name")
+        return if (artist.isPresent) artist.get() else throw ArtistNotFoundException("Artist is not found with given name")
     }
 
     fun getArtistsByGenre(genre: Genre): List<Artist> = artistRepository.getArtistsByGenre(genre.mainGenre.toString())
 
     fun getArtistsByCountry(country: String): List<Artist> = artistRepository.getArtistsByCountry(country)
 
-    fun createNewArtist(artist: Artist) = artistRepository.insert(Artist(name = artist.name, country = artist.country, genre = artist.genre))
+    fun createNewArtist(artist: Artist) =
+        artistRepository.insert(Artist(name = artist.name, country = artist.country, genre = artist.genre))
 
     fun updateArtist(artist: Artist) = artistRepository.save(artist)
 

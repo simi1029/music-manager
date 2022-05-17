@@ -12,11 +12,11 @@ class ArtistQuery(@Autowired private val artistService: ArtistService) : Query {
 
     fun allArtists(): List<Artist> = artistService.getAllArtists()
 
-    fun singleArtistByID(id: String): Artist = artistService.getArtistByID(id)
-
-    fun singleArtistByName(name: String): Artist = artistService.getArtistByName(name)
-
     fun allArtistsByCountry(country: String): List<Artist> = artistService.getArtistsByCountry(country)
 
     fun allArtistsByGenre(genre: Genre): List<Artist> = artistService.getArtistsByGenre(genre)
+
+    fun singleArtistByID(id: String): Artist = artistService.getArtistByID(id)
+
+    fun singleArtistByName(name: String): Artist = artistService.getArtistByName(name)
 }

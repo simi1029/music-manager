@@ -1,6 +1,7 @@
 package hu.simda.musicmanagerserver.domain
 
 enum class Rank(val value: Int) {
+    UNRANKED(0),
     POOR(0),
     FAIR(1),
     QUITE_GOOD(2),

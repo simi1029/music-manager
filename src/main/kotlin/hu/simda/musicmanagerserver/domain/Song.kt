@@ -15,6 +15,6 @@ data class Song(
     @Indexed(unique = true)
     val title: String,
     val length: Int,
-    val rank: Rank?,
-    val rating: Int?
+    val rank: Rank? = Rank.UNRANKED,
+    val rating: Int? = 0
 )

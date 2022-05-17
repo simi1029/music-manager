@@ -49,7 +49,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtists = artistService.getAllArtists()
         //then
-        verify (exactly = 1) { artistRepository.getAllArtists() }
+        verify(exactly = 1) { artistRepository.getAllArtists() }
         assertEquals(expectedArtists, actualArtists)
     }
 
@@ -68,7 +68,7 @@ internal class ArtistServiceTest {
         val actualArtist = artistService.getArtistByID(ARTIST_ID)
 
         //then
-        verify (exactly = 1) { artistRepository.findById(ARTIST_OBJECT_ID) }
+        verify(exactly = 1) { artistRepository.findById(ARTIST_OBJECT_ID) }
         assertEquals(expectedArtist, actualArtist)
     }
 
@@ -81,7 +81,7 @@ internal class ArtistServiceTest {
             artistService.getArtistByID(ARTIST_ID_NOT_IN_DB)
         }
         //then
-        verify (exactly = 1) { artistRepository.findById(ARTIST_OBJECT_ID_NOT_IN_DB) }
+        verify(exactly = 1) { artistRepository.findById(ARTIST_OBJECT_ID_NOT_IN_DB) }
     }
 
     @Test
@@ -97,7 +97,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtist = artistService.getArtistByName(ARTIST_NAME_NOT_IN_DB)
         //then
-        verify (exactly = 1) { artistRepository.getArtist(ARTIST_NAME_NOT_IN_DB) }
+        verify(exactly = 1) { artistRepository.getArtist(ARTIST_NAME_NOT_IN_DB) }
         assertEquals(expectedArtist, actualArtist)
     }
 
@@ -110,7 +110,7 @@ internal class ArtistServiceTest {
             artistService.getArtistByName(ARTIST_NAME_NOT_IN_DB)
         }
         //then
-        verify (exactly = 1) { artistRepository.getArtist(ARTIST_NAME_NOT_IN_DB) }
+        verify(exactly = 1) { artistRepository.getArtist(ARTIST_NAME_NOT_IN_DB) }
     }
 
     @Test
@@ -124,7 +124,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtists = artistService.getArtistsByGenre(POP_GENRE)
         //then
-        verify (exactly = 1) { artistRepository.getArtistsByGenre(POP_GENRE_TEXT) }
+        verify(exactly = 1) { artistRepository.getArtistsByGenre(POP_GENRE_TEXT) }
         assertEquals(expectedArtists, actualArtists)
     }
 
@@ -139,7 +139,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtists = artistService.getArtistsByCountry(COUNTRY)
         //then
-        verify (exactly = 1) { artistRepository.getArtistsByCountry(COUNTRY) }
+        verify(exactly = 1) { artistRepository.getArtistsByCountry(COUNTRY) }
         assertEquals(expectedArtists, actualArtists)
     }
 
@@ -152,7 +152,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtist = artistService.createNewArtist(inputArtist)
         //then
-        verify (exactly = 1) { artistRepository.insert(any<Artist>()) }
+        verify(exactly = 1) { artistRepository.insert(any<Artist>()) }
         assertEquals(expectedArtist, actualArtist)
     }
 
@@ -164,7 +164,7 @@ internal class ArtistServiceTest {
         //when
         val actualArtist = artistService.updateArtist(expectedArtist)
         //then
-        verify (exactly = 1){ artistRepository.save(expectedArtist) }
+        verify(exactly = 1) { artistRepository.save(expectedArtist) }
         assertEquals(expectedArtist, actualArtist)
     }
 
@@ -177,7 +177,7 @@ internal class ArtistServiceTest {
         //when
         val actualMessage = artistService.deleteArtist(ARTIST_ID)
         //then
-        verify (exactly = 1) { artistRepository.delete(expectedArtist) }
+        verify(exactly = 1) { artistRepository.delete(expectedArtist) }
         assertEquals("Success", actualMessage)
     }
 }
