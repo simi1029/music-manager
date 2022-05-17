@@ -4,10 +4,10 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
+import hu.simda.musicmanagerserver.annotation.CascadeSaveMongoEventListener
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration
-import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
@@ -15,13 +15,22 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = ["hu.simda.musicmanagerserver.dao"])
 class MongoConfig {
 
+    @Value("\${spring.data.mongodb.databaseName}")
+    private val DB_NAME: String = ""
+
+    @Value("\${spring.data.mongodb.connectionString}")
+    private val CONNECTION_STRING = ""
+
     @Bean
     fun mongo(): MongoClient {
-        val connectionString = ConnectionString("mongodb+srv://admin:ysHqzMOUsqrr576s@musicmanagerdbinstance.ytfv0.mongodb.net/musicmanagerdb?retryWrites=true&w=majority")
+        val connectionString = ConnectionString(CONNECTION_STRING)
         val mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).build()
         return MongoClients.create(mongoClientSettings)
     }
 
     @Bean
-    fun mongoTemplate(): MongoTemplate = MongoTemplate(mongo(), "musicmanagerdb")
+    fun mongoTemplate(): MongoTemplate = MongoTemplate(mongo(), DB_NAME)
+
+    @Bean
+    fun cascadingMongoEventListener(): CascadeSaveMongoEventListener = CascadeSaveMongoEventListener()
 }

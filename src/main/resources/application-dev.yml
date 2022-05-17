@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      connectionString: "mongodb://docker:mongopw@localhost:55000"

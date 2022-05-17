@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      connectionString: "mongodb+srv://admin:ysHqzMOUsqrr576s@musicmanagerdbinstance.ytfv0.mongodb.net/musicmanagerdb?retryWrites=true&w=majority"

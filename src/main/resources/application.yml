@@ -1,10 +1,13 @@
-graphql:
-    packages: "hu.simda.musicmanagerserver"
-
 spring:
+  profiles:
+    active: dev
   data:
     mongodb:
       auto-index-creation: true
+      databaseName: "musicmanagerdb"
+
+graphql:
+  packages: "hu.simda.musicmanagerserver"
 
 logging:
   level:
