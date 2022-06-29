@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller
 @Controller
 class SongMutation(@Autowired private val songService: SongService) : Mutation {
 
-    fun createSong(song: Song) = songService.createNewSong(song)
+    fun createSong(song: Song) = songService.createSong(song)
 
     fun updateSong(song: Song) = songService.updateSong(song)
 

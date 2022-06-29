@@ -5,6 +5,9 @@ import hu.simda.musicmanagerserver.domain.Album
 import hu.simda.musicmanagerserver.domain.Artist
 import hu.simda.musicmanagerserver.domain.Rank
 import hu.simda.musicmanagerserver.domain.Song
+import hu.simda.musicmanagerserver.service.exceptions.AlbumNotFoundException
+import hu.simda.musicmanagerserver.service.exceptions.ArtistNotFoundException
+import hu.simda.musicmanagerserver.service.exceptions.SongNotFoundException
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -45,7 +48,7 @@ class AlbumService(
             try {
                 songService.getSongByTitle(it.title)
             } catch (exception: SongNotFoundException) {
-                songService.createNewSong(it)
+                songService.createSong(it)
             }
         }
 

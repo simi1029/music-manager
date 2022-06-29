@@ -4,6 +4,7 @@ import hu.simda.musicmanagerserver.dao.ArtistRepository
 import hu.simda.musicmanagerserver.domain.Artist
 import hu.simda.musicmanagerserver.domain.Genre
 import hu.simda.musicmanagerserver.domain.MainGenre
+import hu.simda.musicmanagerserver.service.exceptions.ArtistNotFoundException
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk

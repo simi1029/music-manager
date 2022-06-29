@@ -6,6 +6,7 @@ import hu.simda.musicmanagerserver.domain.Genre
 import hu.simda.musicmanagerserver.domain.MainGenre
 import hu.simda.musicmanagerserver.domain.Rank
 import hu.simda.musicmanagerserver.domain.Song
+import hu.simda.musicmanagerserver.service.exceptions.SongNotFoundException
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
@@ -75,8 +76,9 @@ internal class SongServiceTest {
         val inputSong = Song("", ARTIST, SONG_TITLE, 300)
         val expectedSong = Song(SONG_ID, ARTIST, SONG_TITLE, 300)
         every { songRepository.insert(any<Song>()) } returns expectedSong
+        every { artistService.getArtistByName(ARTIST_NAME) } returns ARTIST
         //when
-        val actualArtist = songService.createNewSong(inputSong)
+        val actualArtist = songService.createSong(inputSong)
         //then
         verify(exactly = 1) { songRepository.insert(any<Song>()) }
         assertEquals(expectedSong, actualArtist)

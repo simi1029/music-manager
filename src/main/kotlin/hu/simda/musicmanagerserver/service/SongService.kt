@@ -3,12 +3,12 @@ package hu.simda.musicmanagerserver.service
 import hu.simda.musicmanagerserver.dao.SongRepository
 import hu.simda.musicmanagerserver.domain.Rank
 import hu.simda.musicmanagerserver.domain.Song
+import hu.simda.musicmanagerserver.service.exceptions.ArtistNotFoundException
+import hu.simda.musicmanagerserver.service.exceptions.SongNotFoundException
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import kotlin.math.floor
-
-private const val MINUTE_IN_SECONDS = 60.0
 
 @Service
 class SongService(
@@ -28,7 +28,7 @@ class SongService(
         return if (song.isPresent) song.get() else throw SongNotFoundException("Song is not found with given title")
     }
 
-    fun createNewSong(song: Song): Song {
+    fun createSong(song: Song): Song {
         val artistName = song.artist.name
         val artist = try {
             artistService.getArtistByName(artistName)
@@ -61,4 +61,8 @@ class SongService(
 
     private fun calculateRating(rank: Rank, length: Int): Int =
         floor(length.div(MINUTE_IN_SECONDS).times(rank.value)).toInt()
+
+    companion object {
+        private const val MINUTE_IN_SECONDS = 60.0
+    }
 }

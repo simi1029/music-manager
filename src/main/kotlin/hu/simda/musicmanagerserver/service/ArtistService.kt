@@ -3,6 +3,7 @@ package hu.simda.musicmanagerserver.service
 import hu.simda.musicmanagerserver.dao.ArtistRepository
 import hu.simda.musicmanagerserver.domain.Artist
 import hu.simda.musicmanagerserver.domain.Genre
+import hu.simda.musicmanagerserver.service.exceptions.ArtistNotFoundException
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
